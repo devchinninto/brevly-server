@@ -8,6 +8,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
+    "test": "dotenv -e .env.test --  vitest run",
+    "test:watch": "dotenv -e .env.test -- vitest",
     "services:up": "docker compose -f docker-compose.yaml up -d",
     "services:stop": "docker compose -f docker-compose.yaml stop",
     "services:down": "docker compose -f docker-compose.yaml down",
@@ -49,6 +51,7 @@
     "@types/node": "26.4.1",
     "commitizen": "4.3.2",
     "cz-conventional-changelog": "3.3.0",
+    "dotenv-cli": "11.0.0",
     "drizzle-kit": "0.31.10",
     "eslint": "10.9.1",
     "eslint-config-prettier": "10.1.8",
@@ -58,7 +61,6 @@
     "tsx": "4.19.3",
     "typescript": "6.0.3",
     "typescript-eslint": "8.69.0",
-    "vite-tsconfig-paths": "6.1.1",
     "vitest": "4.1.11"
   },
   "config": {

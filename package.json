@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx --watch --env-file .env src/infra/http/server.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
     "services:up": "docker compose -f docker-compose.yaml up -d",
     "services:stop": "docker compose -f docker-compose.yaml stop",
     "services:down": "docker compose -f docker-compose.yaml down",
@@ -31,7 +34,10 @@
     "@fastify/cors": "^11.3.0",
     "@fastify/swagger": "^9.8.1",
     "@fastify/swagger-ui": "^6.1.1",
+    "drizzle-orm": "0.45.2",
     "fastify": "5.12.1",
+    "postgres": "3.4.9",
+    "uuidv7": "1.2.1",
     "zod": "4.5.4"
   },
   "devDependencies": {
@@ -41,6 +47,7 @@
     "@types/node": "26.4.1",
     "commitizen": "4.3.2",
     "cz-conventional-changelog": "3.3.0",
+    "drizzle-kit": "0.31.10",
     "eslint": "10.9.1",
     "eslint-config-prettier": "10.1.8",
     "globals": "17.12.0",

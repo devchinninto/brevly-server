@@ -5,7 +5,7 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['dev', 'production', 'test']).default('production'),
   DATABASE_URL: z.url().startsWith('postgresql://'),
 
-  PREFIX: z.string(),
+  PREFIX: z.string().default('brev.ly'),
 
   CLOUDFLARE_ACCOUNT_ID: z.string(),
   CLOUDFLARE_ACCESS_KEY_ID: z.string(),

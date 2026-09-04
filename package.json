@@ -10,7 +10,7 @@
     "db:studio": "drizzle-kit studio",
     "pretest": "pnpm exec dotenv -e .env.test -o -- pnpm exec drizzle-kit migrate",
     "test": "dotenv -e .env.test -o -- vitest run",
-    "test:watch": "dotenv -e .env.test -o -- vitest",
+    "test:watch": "dotenv -e .env.test -o -- vitest ",
     "services:up": "docker compose -f docker-compose.yaml up -d",
     "services:stop": "docker compose -f docker-compose.yaml stop",
     "services:down": "docker compose -f docker-compose.yaml down",

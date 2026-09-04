@@ -1,7 +1,42 @@
 import fastify from 'fastify'
 import { env } from '@/env.ts'
+import {
+  serializerCompiler,
+  validatorCompiler
+} from 'fastify-type-provider-zod'
+import scalarUI from '@scalar/fastify-api-reference'
+import fastifyCors from '@fastify/cors'
+import fastifySwagger from '@fastify/swagger'
+import { createShortUrlRoute } from './routes/create-short-url.ts'
 
 const server = fastify()
+
+server.setValidatorCompiler(validatorCompiler)
+server.setSerializerCompiler(serializerCompiler)
+
+server.register(fastifyCors, {
+  origin: '*'
+})
+
+server.register(fastifySwagger, {
+  openapi: {
+    info: {
+      title: 'Brevly Server',
+      version: '1.0.0'
+    }
+  }
+})
+
+server.get('/openapi.json', () => server.swagger())
+
+server.register(scalarUI, {
+  routePrefix: '/docs',
+  configuration: {
+    layout: 'modern'
+  }
+})
+
+server.register(createShortUrlRoute)
 
 server
   .listen({

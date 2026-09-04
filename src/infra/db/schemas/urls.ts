@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { uuidv7 } from 'uuidv7'
 
 export const urls = pgTable('urls', {
@@ -8,5 +8,6 @@ export const urls = pgTable('urls', {
   name: text('name').notNull(),
   originalUrl: text('original_url').notNull().unique(),
   shortUrl: text('short_url').notNull().unique(),
-  createdAt: timestamp('created_at').defaultNow().notNull()
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  accessCount: integer('access_count').notNull().default(0)
 })

@@ -2,7 +2,6 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import z from 'zod'
 import { isRight, unwrapEither } from '@/shared/either.ts'
 import { createShortUrl } from '@/app/use-cases/create-short-url.ts'
-import { uploadUrl } from '@/app/use-cases/upload.ts'
 
 export const createShortUrlRoute: FastifyPluginAsyncZod = async (server) => {
   server.post(
@@ -12,7 +11,6 @@ export const createShortUrlRoute: FastifyPluginAsyncZod = async (server) => {
         summary: 'Create a short url',
         tags: ['create'],
         body: z.object({
-          name: z.string(),
           originalUrl: z.string(),
           shortUrlHandle: z
             .string()
@@ -28,25 +26,33 @@ export const createShortUrlRoute: FastifyPluginAsyncZod = async (server) => {
             .describe('Short url created!'),
           400: z.object({
             message: z.string()
+          }),
+          409: z.object({
+            message: z.string()
           })
         }
       }
     },
     async (request, reply) => {
-      const { name, originalUrl, shortUrlHandle } = request.body
+      const { originalUrl, shortUrlHandle } = request.body
 
-      const result = await createShortUrl({ name, originalUrl, shortUrlHandle })
+      const result = await createShortUrl({ originalUrl, shortUrlHandle })
 
-      if (!result) {
-        return reply.status(400).send({ message: 'Error creating short url' })
+      if (isRight(result)) {
+        const url = unwrapEither(result)
+
+        return reply.status(201).send({ shortUrl: url.shortUrl })
       }
 
-      const shortUrl = await uploadUrl(result)
+      const error = unwrapEither(result)
 
-      if (isRight(shortUrl)) {
-        console.log(unwrapEither(shortUrl))
-
-        return reply.status(201).send({ shortUrl: shortUrl.right.shortUrl })
+      switch (error.constructor.name) {
+        case 'UrlAlreadyExistsError': {
+          return reply.status(409).send({ message: error.message })
+        }
+        case 'InvalidUrlFormatError': {
+          return reply.status(400).send({ message: error.message })
+        }
       }
     }
   )

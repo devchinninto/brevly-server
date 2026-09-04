@@ -12,6 +12,7 @@ import fastifySwagger from '@fastify/swagger'
 import { createShortUrlRoute } from './routes/create-short-url.ts'
 import { getUrlsRoute } from './routes/get-all-urls.ts'
 import { deleteUrlRoute } from './routes/delete-url.ts'
+import { getUrlByShortUrlRoute } from './routes/get-url-by-short-url.ts'
 
 const server = fastify()
 
@@ -45,6 +46,7 @@ server.register(scalarUI, {
 server.register(createShortUrlRoute)
 server.register(getUrlsRoute)
 server.register(deleteUrlRoute)
+server.register(getUrlByShortUrlRoute)
 
 server
   .listen({

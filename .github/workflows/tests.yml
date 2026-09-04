@@ -17,9 +17,16 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: brevly-server
+          PREFIX: 'brev.ly'
+          POSTGRES_USER: 'postgres'
+          POSTGRES_PASSWORD: 'postgres'
+          POSTGRES_DB: 'brevly-server'
+          DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/brevly_test'
+          CLOUDFLARE_ACCOUNT_ID: '#'
+          CLOUDFLARE_ACCESS_KEY_ID: '#'
+          CLOUDFLARE_SECRET_ACCESS_KEY: '#'
+          CLOUDFLARE_BUCKET: 'brevly'
+          CLOUDFLARE_PUBLIC_URL: 'https://pub-62014f8de73c45e48ef8522d7dc46c2e.r2.dev'
         options: >-
           --health-cmd pg_isready
           --health-interval 10s

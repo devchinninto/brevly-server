@@ -13,7 +13,7 @@ const uploadUrlsInput = z.object({
 
 type UploadUrlsInput = z.input<typeof uploadUrlsInput>
 
-export async function uploadUrls(input: UploadUrlsInput) {
+export async function uploadUrl(input: UploadUrlsInput) {
   const { name, originalUrl, shortUrl } = uploadUrlsInput.parse(input)
 
   const [inserted] = await db

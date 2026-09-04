@@ -1,0 +1,53 @@
+openapi: 3.1.0
+
+info:
+  title: Brev.ly Server
+  version: 1.0.0
+
+paths:
+  /urls:
+    get:
+      summary: Get all short urls
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+      responses:
+        '200':
+          description: A list of short urls
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Url'
+
+    post:
+      summary: Create a new short url
+
+    delete:
+      summary: Delete a short url
+
+components:
+  schemas:
+    Url:
+      type: object
+      required:
+        - name
+        - original_url
+        - short_url
+      properties:
+        name:
+          type: string
+        original_url:
+          type: string
+          format: url
+        short_url:
+          type: string

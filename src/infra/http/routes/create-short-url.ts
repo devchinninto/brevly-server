@@ -37,14 +37,11 @@ export const createShortUrlRoute: FastifyPluginAsyncZod = async (server) => {
 
       const result = await createShortUrl({ name, originalUrl, shortUrlHandle })
 
-      console.log(result)
       if (!result) {
         return reply.status(400).send({ message: 'Error creating short url' })
       }
 
       const shortUrl = await uploadUrl(result)
-
-      console.log(shortUrl)
 
       if (isRight(shortUrl)) {
         console.log(unwrapEither(shortUrl))

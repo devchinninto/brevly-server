@@ -8,19 +8,24 @@ export const getUrlsRoute: FastifyPluginAsyncZod = async (server) => {
     {
       schema: {
         summary: 'List all short urls',
-        tags: ['list'],
+        tags: ['List'],
         response: {
-          200: z.object({
-            urls: z.array(
-              z.object({
-                short_url: z.string()
-              })
-            )
-          }),
+          200: z
+            .object({
+              urls: z.array(
+                z.object({
+                  short_url: z.string().meta({ example: 'brev.ly/shortUrl' })
+                })
+              )
+            })
+            .describe('List of all short urls.'),
 
-          400: z.object({
-            message: z.string()
-          })
+          400: z
+            .object({
+              message: z.string()
+            })
+            .meta({ example: { message: 'Unable to list urls' } })
+            .describe('Unable to list short urls.')
         }
       }
     },

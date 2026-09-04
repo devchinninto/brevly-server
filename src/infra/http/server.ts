@@ -1,6 +1,8 @@
 import fastify from 'fastify'
 import { env } from '@/env.ts'
 import {
+  jsonSchemaTransform,
+  jsonSchemaTransformObject,
   serializerCompiler,
   validatorCompiler
 } from 'fastify-type-provider-zod'
@@ -25,7 +27,9 @@ server.register(fastifySwagger, {
       title: 'Brevly Server',
       version: '1.0.0'
     }
-  }
+  },
+  transform: jsonSchemaTransform,
+  transformObject: jsonSchemaTransformObject
 })
 
 server.get('/openapi.json', () => server.swagger())

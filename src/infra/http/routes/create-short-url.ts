@@ -9,27 +9,47 @@ export const createShortUrlRoute: FastifyPluginAsyncZod = async (server) => {
     {
       schema: {
         summary: 'Create a short url',
-        tags: ['create'],
-        body: z.object({
-          originalUrl: z.string(),
-          shortUrlHandle: z
-            .string()
-            .min(2)
-            .max(12)
-            .regex(/^[a-zA-Z0-9]+$/)
-        }),
+        tags: ['Create'],
+        body: z
+          .object({
+            originalUrl: z.string().meta({ example: 'https://example.com' }),
+            shortUrlHandle: z
+              .string()
+              .min(2)
+              .max(12)
+              .regex(/^[a-zA-Z0-9]+$/)
+              .meta({ example: 'abc123' })
+          })
+          .meta({
+            example: {
+              originalUrl: 'https://example.com',
+              shortUrlHandle: 'abc123'
+            }
+          }),
         response: {
           201: z
             .object({
-              shortUrl: z.string()
+              shortUrl: z.string().meta({ example: 'abc123' })
             })
+            .meta({ example: { shortUrl: 'abc123' } })
             .describe('Short url created!'),
-          400: z.object({
-            message: z.string()
-          }),
-          409: z.object({
-            message: z.string()
-          })
+          400: z
+            .object({
+              message: z.string()
+            })
+            .meta({ example: { message: 'Invalid URL format.' } })
+            .describe('Invalid url format.'),
+          409: z
+            .object({
+              message: z.string()
+            })
+            .meta({
+              example: {
+                message:
+                  'The following URLs already exist: https://example.com'
+              }
+            })
+            .describe('Url already exists.')
         }
       }
     },

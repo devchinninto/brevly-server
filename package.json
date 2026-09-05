@@ -4,6 +4,7 @@
   "description": "Projeto da Faculdade de Tecnologia Rocketseat",
   "main": "index.js",
   "scripts": {
+    "predev": "pnpm run services:up && pnpm run db:migrate",
     "dev": "tsx --watch --env-file .env src/infra/http/server.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",

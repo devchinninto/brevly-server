@@ -35,8 +35,6 @@ describe('List all urls', () => {
 
     const result = await listUrls()
 
-    console.log(result)
-
     expect(result.urls.length).toBe(2)
     expect(result.urls).toEqual([
       expect.objectContaining({

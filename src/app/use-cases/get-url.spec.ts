@@ -24,19 +24,25 @@ describe('Get a single URL', () => {
       shortUrlHandle: handle
     }
 
-    const _createdUrl = await createShortUrl(url)
+    const createUrlResponse = await createShortUrl(url)
 
-    const createdUrl = makeRight(_createdUrl)
-    const response = unwrapEither(createdUrl)
+    const successfullyCreated = makeRight(createUrlResponse)
+    const createdUrl = unwrapEither(successfullyCreated)
 
-    const shortUrlToSearch = response.right?.shortUrl
+    const shortUrlToSearch = createdUrl.right?.shortUrl
 
     if (!shortUrlToSearch) {
       throw new UrlNotFoundError()
     }
 
-    const result = await getUrl(shortUrlToSearch)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const firstAccess = await getUrl(shortUrlToSearch)
+    const secondAccess = await getUrl(shortUrlToSearch)
 
-    expect(unwrapEither(result)).toEqual(response.right?.originalUrl)
+    const successfulResponse = makeRight(secondAccess)
+    const result = unwrapEither(successfulResponse)
+
+    expect(result.right?.originalUrl).toEqual(createdUrl.right?.originalUrl)
+    expect(result.right?.accessCount).toBe(2)
   })
 })

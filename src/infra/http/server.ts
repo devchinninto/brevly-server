@@ -13,6 +13,7 @@ import { createShortUrlRoute } from './routes/create-short-url.ts'
 import { getUrlsRoute } from './routes/get-all-urls.ts'
 import { deleteUrlRoute } from './routes/delete-url.ts'
 import { getUrlByShortUrlRoute } from './routes/get-url-by-short-url.ts'
+import { exportCsvRoute } from './routes/export-csv.ts'
 
 const server = fastify()
 
@@ -47,6 +48,7 @@ server.register(createShortUrlRoute)
 server.register(getUrlsRoute)
 server.register(deleteUrlRoute)
 server.register(getUrlByShortUrlRoute)
+server.register(exportCsvRoute)
 
 server
   .listen({

@@ -37,8 +37,20 @@ describe('List all urls', () => {
 
     expect(result.urls.length).toBe(2)
     expect(result.urls).toEqual([
-      expect.objectContaining({ short_url: firstResponse.right?.shortUrl }),
-      expect.objectContaining({ short_url: secondResponse.right?.shortUrl })
+      expect.objectContaining({
+        id: firstResponse.right?.id,
+        originalUrl: firstResponse.right?.originalUrl,
+        shortUrl: firstResponse.right?.shortUrl,
+        accessCount: firstResponse.right?.accessCount,
+        createdAt: firstResponse.right?.createdAt
+      }),
+      expect.objectContaining({
+        id: secondResponse.right?.id,
+        originalUrl: secondResponse.right?.originalUrl,
+        shortUrl: secondResponse.right?.shortUrl,
+        accessCount: secondResponse.right?.accessCount,
+        createdAt: secondResponse.right?.createdAt
+      })
     ])
   })
 })

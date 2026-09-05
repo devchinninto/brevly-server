@@ -16,7 +16,8 @@ export const getUrlByShortUrlRoute: FastifyPluginAsyncZod = async (server) => {
         response: {
           200: z
             .object({
-              originalUrl: z.string()
+              originalUrl: z.string(),
+              accessCount: z.int()
             })
             .describe('Get an original URL by short URL.'),
 
@@ -35,9 +36,9 @@ export const getUrlByShortUrlRoute: FastifyPluginAsyncZod = async (server) => {
       const result = await getUrl(shortUrl)
 
       if (isRight(result)) {
-        const originalUrl = unwrapEither(result)
+        const { originalUrl, accessCount } = unwrapEither(result)
 
-        return reply.status(200).send({ originalUrl })
+        return reply.status(200).send({ originalUrl, accessCount })
       }
 
       const error = unwrapEither(result)

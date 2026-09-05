@@ -2,30 +2,36 @@ import { Upload } from '@aws-sdk/lib-storage'
 import { z } from 'zod'
 import { env } from '@/env.ts'
 import { r2 } from './client.ts'
+import { Readable } from 'node:stream'
+import { extname } from 'node:path'
+import { uuidv7 } from 'uuidv7'
 
 const uploadToStorageInput = z.object({
-  folder: z.string().default('urls'),
-  urlName: z.string(),
-  originalUrl: z.url(),
-  shortUrl: z.string()
+  folder: z.enum(['urls', 'reports']),
+  fileName: z.string(),
+  contentType: z.string(),
+  contentStream: z.instanceof(Readable)
 })
 
 type UploadToStorageInput = z.input<typeof uploadToStorageInput>
 
-export async function uploadToStorage(input: UploadToStorageInput) {
-  const { folder, originalUrl, shortUrl, urlName } =
+export async function uploadToUrlsStorage(input: UploadToStorageInput) {
+  const { folder, fileName, contentType, contentStream } =
     uploadToStorageInput.parse(input)
 
-  const key = `${folder}/${shortUrl}.json`
-  const body = JSON.stringify({ originalUrl, shortUrl, urlName })
+  const fileExtension = extname(fileName)
+
+  const key = `${folder}/${uuidv7()}-urls-report${fileExtension}`
+
+  console.log(key)
 
   const upload = new Upload({
     client: r2,
     params: {
       Key: key,
       Bucket: env.CLOUDFLARE_BUCKET,
-      Body: body,
-      ContentType: 'application/json'
+      Body: contentStream,
+      ContentType: contentType
     }
   })
 

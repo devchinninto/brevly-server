@@ -4,7 +4,11 @@ import { schema } from '@/infra/db/schemas/index.ts'
 export async function listUrls() {
   const urls = await db
     .select({
-      short_url: schema.urls.shortUrl
+      id: schema.urls.id,
+      originalUrl: schema.urls.originalUrl,
+      shortUrl: schema.urls.shortUrl,
+      accessCount: schema.urls.accessCount,
+      createdAt: schema.urls.createdAt
     })
     .from(schema.urls)
 

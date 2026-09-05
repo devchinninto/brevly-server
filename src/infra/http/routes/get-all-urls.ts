@@ -14,7 +14,15 @@ export const getUrlsRoute: FastifyPluginAsyncZod = async (server) => {
             .object({
               urls: z.array(
                 z.object({
-                  short_url: z.string().meta({ example: 'brev.ly/shortUrl' })
+                  id: z
+                    .string()
+                    .meta({ example: '0197c0a2-3b4c-7def-8a1b-2c3d4e5f6a7b' }),
+                  originalUrl: z
+                    .string()
+                    .meta({ example: 'https://example.com' }),
+                  shortUrl: z.string().meta({ example: 'brev.ly/shortUrl' }),
+                  accessCount: z.int().meta({ example: 0 }),
+                  createdAt: z.date()
                 })
               )
             })
